@@ -102,6 +102,7 @@ def gameturn(graveyard):
 
 
 def main():
+    print('Hewwo World')
     setdeck()
     shuffle()
     graveyard = Card(None, None)
