@@ -12,6 +12,7 @@ class Card:
 
 deck = np.arange(52, dtype=object)
 hand = np.arange(4, dtype=object)
+graveyard = Card(None, None)
 endgame = 1
 nxt = 0
 
@@ -48,8 +49,9 @@ def shuffle():
 # def draw(i, next):
     # hand[i] = deck[next]
 
-def turndraw(graveyard):
+def turndraw():
     global nxt
+    global graveyard
     if graveyard.order is not None:
         drawmethod = int(input('Take from deck (Type "1") or graveyard (Type "2"): '))
         if drawmethod == 1:
@@ -57,6 +59,7 @@ def turndraw(graveyard):
             nxt += 1
         elif drawmethod == 2:
             hand[3] = graveyard
+            graveyard = Card(None, None)
     else:
         drawmethod = int(input('Take from deck (Type "1"): '))
         if drawmethod == 1:
@@ -65,7 +68,7 @@ def turndraw(graveyard):
         else:
             print('Invalid action.')
             time.sleep(1)
-            turndraw(graveyard)
+            turndraw()
 
 
 def firstdraw():
@@ -77,6 +80,7 @@ def firstdraw():
 
 
 def discard():
+    global graveyard
     n = int(input('Select a card to discard: '))
     graveyard = hand[n-1]
     if graveyard.suit is not None:
@@ -94,9 +98,9 @@ def displayhand():
             print(str(a + 1) + '. ' + hand[a].order + ' of ' + hand[a].suit)
 
 
-def gameturn(graveyard):
+def gameturn():
     displayhand()
-    turndraw(graveyard)
+    turndraw()
     displayhand()
     discard()
 
@@ -104,10 +108,9 @@ def gameturn(graveyard):
 def main():
     setdeck()
     shuffle()
-    graveyard = Card(None, None)
     firstdraw()
     while endgame == 1:
-        gameturn(graveyard)
+        gameturn()
 
 
 if __name__ == "__main__":
